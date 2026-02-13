@@ -41,7 +41,7 @@ def call_model(prompt: str):
                 {"role": "user", "content": prompt}
             ],
             temperature=0,
-            max_tokens=500
+            max_tokens=8192
         )
 
         # Ответ модели
