@@ -7,25 +7,90 @@ from config import GROQ_API_KEY
 client = Groq(api_key=GROQ_API_KEY)
 
 
-def build_prompt(bank_name: str, stage: str = "initial") -> str:
+def build_prompt(bank_name: str, stage: str = "initial", existing_data=None) -> str:
     """
-    Строит МИНИМАЛЬНЫЙ промпт для экономии токенов.
+    Строит промпт для поиска руководства банка.
+    
+    Args:
+        bank_name: Название банка
+        stage: "initial" для первого поиска, "verify" для проверки
+        existing_data: Уже найденные данные (для этапа verify)
     """
     
     if stage == "initial":
-        # Ищем только топ-2 руководителей
-        return f'CEO and Chairman of "{bank_name}" bank. Return ONLY JSON array: [{{"full_name":"","position":"","phone":,"email":}}]. Max 2 people. If not found return []'
+        # AI-1: Первичный поиск - ищем ВСЕХ руководителей
+        return f'''Найди руководителей банка "{bank_name}" 
+
+Искать должности:
+- Председатель правления / CEO
+- Заместители председателя
+- Коммерческий директор
+- Директор по продуктам
+- Директор по цифровой трансформации / Digital
+- Директор по развитию
+- Директор розничного блока
+- Директор корпоративного блока
+- Директор по маркетингу / CMO
+- IT-директор / CTO
+- Директор по рискам / CRO
+- Директор по продажам
+- Руководитель проектов / PMO
+- Руководитель блока МСБ
+- CISO / Информационная безопасность
+- Head of Innovation
+- Enterprise Architect
+- Юридический директор
+- Директор по закупкам
+
+Верни ТОЛЬКО JSON массив (без markdown):
+[{{"full_name":"Фамилия Имя Отчество","position":"Должность","phone":"","email":""}}]
+
+Требования:
+- ФИО только на РУССКОМ языке (кириллица)
+- Если нашёл на английском - переведи на русский
+- Телефон и email - если найдены
+- Если ничего не найдено - верни []
+- НЕ включай людей не из этого банка'''
     
     elif stage == "verify":
-        # Verify слишком дорого, пропускаем
-        return ""
+        # AI-2: Проверка и дополнение
+        existing_str = ""
+        if existing_data:
+            existing_str = "\n\nУЖЕ НАЙДЕННЫЕ ДАННЫЕ:\n"
+            for person in existing_data:
+                existing_str += f"- {person.full_name}, {person.position}"
+                if person.phone:
+                    existing_str += f", тел: {person.phone}"
+                if person.email:
+                    existing_str += f", email: {person.email}"
+                existing_str += "\n"
+        
+        return f'''Проверь информацию о руководстве банка "{bank_name}".
+{existing_str}
+
+ЗАДАЧИ:
+1. Проверь актуальность найденных людей (работают ли они там сейчас)
+2. Дополни контакты (телефон, email) для уже найденных людей
+3. НЕ придумывай контакты
+4. Проверяй что человек работает именно в банке "{bank_name}"
+
+Верни ТОЛЬКО JSON массив (без markdown):
+[{{"full_name":"Фамилия Имя Отчество","position":"Должность","phone":"","email":""}}]
+
+Требования:
+- ФИО только на РУССКОМ языке
+- Если человек УЖЕ ЕСТЬ в списке выше - НЕ дублируй его, просто добавь контакты если нашёл
+
+- Если информация не найдена или устарела - укажи в comment
+- Если ничего нового не найдено - верни []'''
     
     else:
         raise ValueError(f"Unknown stage: {stage}")
 
+
 def call_model(prompt: str):
     """
-    Вызывает Groq Compound с минимальными токенами.
+    Вызывает Groq Compound с веб-поиском.
     """
     if not prompt.strip():
         return []
@@ -35,7 +100,7 @@ def call_model(prompt: str):
             model="groq/compound",
             messages=[{"role": "user", "content": prompt}],
             temperature=0,
-            max_completion_tokens=256,
+            max_completion_tokens=2048,  # Увеличено для большего количества результатов
             top_p=1,
             stream=True,
             stop=None,
@@ -48,17 +113,16 @@ def call_model(prompt: str):
             content += delta_content
 
         # Убираем markdown и лишние пробелы
-        for t in ["```json", "```", "```\n", "\n```"]:
-            content = content.replace(t, "")
+        for marker in ["```json", "```", "```\n", "\n```"]:
+            content = content.replace(marker, "")
         content = content.strip()
 
-        # ОТЛАДКА: Выводим сырой ответ
+        # Проверка на пустой ответ
         if not content:
             print(f"  ⚠️ Модель вернула пустой ответ")
             return []
         
-        # Пробуем найти JSON в тексте
-        # Ищем первый '[' и последний ']'
+        # Ищем JSON в тексте
         start_idx = content.find('[')
         end_idx = content.rfind(']')
         
@@ -68,7 +132,7 @@ def call_model(prompt: str):
         
         json_str = content[start_idx:end_idx+1]
         
-        # Пробуем распарсить JSON
+        # Парсим JSON
         parsed = json.loads(json_str)
         
         if not isinstance(parsed, list):
@@ -87,8 +151,6 @@ def call_model(prompt: str):
         raise e
 
 
-import time
-
 def call_model_with_retry(prompt: str, max_retries: int = 5):
     """
     Вызывает модель с повторными попытками при ошибках.
@@ -99,7 +161,7 @@ def call_model_with_retry(prompt: str, max_retries: int = 5):
             result = call_model(prompt)
             
             if result:
-                sleep(5)
+                sleep(3)  # Пауза после успешного запроса
                 return result
             
             return []
@@ -110,8 +172,7 @@ def call_model_with_retry(prompt: str, max_retries: int = 5):
             # ОБРАБОТКА REQUEST TOO LARGE
             if "Request Entity Too Large" in error_msg or "Too Large" in error_msg:
                 print(f"  ⚠️ Запрос слишком большой. Веб-страница банка очень объемная.")
-                print(f"  💡 Попробуйте более конкретный запрос или пропустите этот банк.")
-                return []  # Не повторяем, это не поможет
+                return []
             
             # ОБРАБОТКА RATE LIMIT
             if "Rate limit" in error_msg:
@@ -128,7 +189,7 @@ def call_model_with_retry(prompt: str, max_retries: int = 5):
             
             # ДРУГИЕ ОШИБКИ
             if attempt < max_retries - 1:
-                print(f"  ⚠ Попытка {attempt + 1}/{max_retries}: {error_msg[:150]}")
+                print(f"  ⚠️ Попытка {attempt + 1}/{max_retries}: {error_msg[:150]}")
                 sleep(5)
             else:
                 print(f"  ❌ Все попытки исчерпаны: {error_msg[:150]}")

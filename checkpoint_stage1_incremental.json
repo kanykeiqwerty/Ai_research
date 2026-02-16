@@ -1,3 +1,53 @@
 {
-  "Сбербанк  \n   № 1481, Москва": []
+  "Сбербанк  \n   № 1481, Москва": [],
+  "ВТБ  \n   № 1000, Санкт-Петербург": [
+    {
+      "bank": "ВТБ  \n   № 1000, Санкт-Петербург",
+      "full_name": "Костин Андрей Леонидович",
+      "position": "Президент‑председатель правления",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-16",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "ВТБ  \n   № 1000, Санкт-Петербург",
+      "full_name": "Силуанов Антон Геннадьевич",
+      "position": "Председатель Наблюдательного совета",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-16",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "ВТБ  \n   № 1000, Санкт-Петербург",
+      "full_name": "Бортников Денис Александрович",
+      "position": "Председатель правления ВТБ Северо‑Запад",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-16",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "ВТБ  \n   № 1000, Санкт-Петербург",
+      "full_name": "Игнатьев Евгений Геннадьевич",
+      "position": "Корпоративный секретарь (руководитель аппарата Наблюдательного совета)",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-16",
+      "status": "Найдено",
+      "comment": ""
+    }
+  ]
 }

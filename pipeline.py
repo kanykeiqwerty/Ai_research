@@ -50,7 +50,7 @@ def process_bank(bank_name: str):
         print(f"  ✅ AI-1: {len(results_ai1)} человек(а)")
     
     # Небольшая задержка между этапами
-    time.sleep(1)
+    time.sleep(2)
     
     # ЭТАП 2: Проверка и дополнение через AI-2
     print(f"\n📍 ЭТАП 2: Проверка и дополнение")
