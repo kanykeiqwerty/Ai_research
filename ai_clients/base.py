@@ -1,5 +1,5 @@
+# ai_clients/groq_client.py
 import json
-
 from groq import Groq
 from config import GROQ_API_KEY 
 
@@ -27,15 +27,15 @@ def build_prompt(bank_name: str) -> str:
 """
 
 
-def call_model(prompt: str):
+def call_groq_model(prompt: str, model_name: str):
+    """Общая функция для вызова любой модели Groq"""
     if not prompt.strip():
         print("⚠ Пустой prompt, возвращаю []")
         return []
 
     try:
-        # Вызов GROQ API
         chat_completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile", 
+            model=model_name,  # <-- передаём название модели
             messages=[
                 {"role": "system", "content": "Ты возвращаешь только JSON."},
                 {"role": "user", "content": prompt}
@@ -44,14 +44,11 @@ def call_model(prompt: str):
             max_tokens=8192
         )
 
-        # Ответ модели
         content = chat_completion.choices[0].message.content.strip()
-
-        # Пробуем распарсить JSON
         return json.loads(content)
     except json.JSONDecodeError:
-        print("⚠ Ошибка JSON:", content)
+        print(f"⚠ Ошибка JSON ({model_name}):", content)
         return []
     except Exception as e:
-        print("⚠ Ошибка запроса:", e)
+        print(f"⚠ Ошибка запроса ({model_name}):", e)
         return []
