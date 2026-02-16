@@ -42,4 +42,20 @@ def search(bank_name: str):
         persons.append(person)
         print(f"    - {person.full_name} ({person.position})")
     
+    if not persons:
+        print(f"  ⚠️ После фильтрации не осталось валидных записей")
+        print(f"  📝 Создаём пустую запись для банка")
+        
+        empty_person = Person(
+            bank=bank_name,
+            full_name="",
+            position="",
+            phone=None,
+            email=None,
+            social_links=None,
+            source="AI-1 (Groq Web Search)",
+            comment="Информация не найдена или отфильтрована"
+        )
+        return [empty_person]
+    
     return persons
