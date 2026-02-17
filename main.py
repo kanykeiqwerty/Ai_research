@@ -69,7 +69,7 @@ def main():
     # НАСТРОЙКИ
     # =======================
     input_file = "Копия Проэкты.xlsx"
-    output_file = "results.xlsx"
+    output_file = "resultstest.xlsx"
     checkpoint_stage1 = "checkpoint_stage1_incremental.json"
     checkpoint_stage2 = "checkpoint_stage2_incremental.json"
 
@@ -91,7 +91,7 @@ def main():
     banks = load_banks(input_file)
     
     # ТЕСТИРОВАНИЕ: Можно ограничить количество банков
-    # banks = banks[:5]  # Раскомментировать для теста на 5 банках
+    banks = banks[:3]  # Раскомментировать для теста на 5 банках
     
     print(f"\n📊 Всего банков для обработки: {len(banks)}")
     print(f"🕐 Начало: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -138,7 +138,7 @@ def main():
         if remaining_banks:
             print("\n🔄 Продолжаем обработку оставшихся банков...")
             # Обрабатываем только оставшиеся банки
-            from pipeline import process_all_banks_stage1
+            # from pipeline import process_all_banks_stage1
             remaining_results = process_all_banks_stage1(remaining_banks)
             
             # Объединяем с уже обработанными

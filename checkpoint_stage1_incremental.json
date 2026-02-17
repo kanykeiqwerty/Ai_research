@@ -1,3 +1,112 @@
 {
-  "Сбербанк  \n   № 1481, Москва": []
+  "Сбербанк  \n   № 1481, Москва": [
+    {
+      "bank": "Сбербанк  \n   № 1481, Москва",
+      "full_name": "Греф Герман Оскарович",
+      "position": "Президент, Председатель Правления",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-17",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "Сбербанк  \n   № 1481, Москва",
+      "full_name": "Полетаев Максим",
+      "position": "Первый заместитель Председателя Правления",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-17",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "Сбербанк  \n   № 1481, Москва",
+      "full_name": "Хасис Лев",
+      "position": "Первый заместитель Председателя Правления",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-17",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "Сбербанк  \n   № 1481, Москва",
+      "full_name": "Голодец Ольга",
+      "position": "Заместитель Председателя Правления",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-17",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "Сбербанк  \n   № 1481, Москва",
+      "full_name": "Донских Андрей Михайлович",
+      "position": "Заместитель Председателя Правления",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-17",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "Сбербанк  \n   № 1481, Москва",
+      "full_name": "Карамзин Антон Александрович",
+      "position": "Заместитель Председателя Правления",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-17",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "Сбербанк  \n   № 1481, Москва",
+      "full_name": "Торбахов Александр Юрьевич",
+      "position": "Заместитель Председателя Правления",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-17",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "Сбербанк  \n   № 1481, Москва",
+      "full_name": "Златкис Белла Ильинична",
+      "position": "Заместитель Председателя Правления",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-17",
+      "status": "Найдено",
+      "comment": ""
+    },
+    {
+      "bank": "Сбербанк  \n   № 1481, Москва",
+      "full_name": "Артамонов Игорь Георгиевич",
+      "position": "Заместитель Председателя Правления",
+      "phone": null,
+      "email": null,
+      "social_links": null,
+      "source": "AI-1 (Groq Web Search)",
+      "date_collected": "2026-02-17",
+      "status": "Найдено",
+      "comment": ""
+    }
+  ]
 }

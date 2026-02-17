@@ -104,7 +104,7 @@ def call_model(prompt: str):
             top_p=1,
             stream=True,
             stop=None,
-            compound_custom={"tools":{"enabled_tools":["web_search"]}}
+            compound_custom={"tools":{"enabled_tools":["web_search", "visit_website"]}}
         )
 
         content = ""
